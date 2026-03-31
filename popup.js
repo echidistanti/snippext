@@ -12,6 +12,8 @@ const errorMsg = document.getElementById("errorMsg");
 const inputSearch = document.getElementById("inputSearch");
 const searchBar = document.getElementById("searchBar");
 const btnExport = document.getElementById("btnExport");
+const btnImport = document.getElementById("btnImport");
+const fileImport = document.getElementById("fileImport");
 const toast = document.getElementById("toast");
 
 // ── Load ──────────────────────────────────────────────
@@ -130,6 +132,49 @@ btnExport.addEventListener("click", () => {
   a.download = "snippext-export.json";
   a.click();
   URL.revokeObjectURL(url);
+});
+
+// ── Import ────────────────────────────────────────────
+btnImport.addEventListener("click", () => {
+  fileImport.click();
+});
+
+fileImport.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const imported = JSON.parse(event.target.result);
+      if (typeof imported !== "object" || imported === null) {
+        throw new Error("Invalid JSON format");
+      }
+
+      let added = 0;
+      let overwritten = 0;
+      for (const [key, value] of Object.entries(imported)) {
+        if (typeof key !== "string" || typeof value !== "string") {
+          throw new Error("Snippets must be string key-value pairs");
+        }
+        if (snippets[key] !== undefined) {
+          overwritten++;
+        } else {
+          added++;
+        }
+        snippets[key] = value;
+      }
+
+      save(() => {
+        render();
+        showToast(`Imported: ${added} added, ${overwritten} overwritten`);
+      });
+    } catch (err) {
+      showError(`Import failed: ${err.message}`);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = ""; // Reset for next import
 });
 
 // ── Search ────────────────────────────────────────────

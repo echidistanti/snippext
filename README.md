@@ -30,6 +30,7 @@ Clicking the extension icon opens a popup with a minimal dark-themed interface. 
 - **Delete a snippet** — click the `×` button on any row in the list.
 - **Filter snippets** — a search field appears automatically once you have more than four snippets, letting you filter by keyword or expansion text.
 - **Export to JSON** — the "export JSON" button in the footer downloads all your snippets as a plain `.json` file, useful for backup or transfer.
+- **Import from JSON** — the "import JSON" button in the footer allows you to select a `.json` file to import snippets, merging them with existing ones (overwriting duplicates).
 
 Snippets are stored entirely in `chrome.storage.local` — local to your browser profile, never synced to any server.
 
@@ -89,7 +90,6 @@ Avoid keywords that are common English words or letter combinations, as they wil
 - Snippext does not support **multi-step expansion**, **cursor placement tokens**, or **dynamic variables** (e.g. today's date). It performs a simple string replacement.
 - It does not work in **native desktop inputs** outside of Chrome (for system-wide expansion, consider [Espanso](https://espanso.org)).
 - In some heavily sandboxed `<iframe>` elements, the content script may not have access depending on the frame's origin policy.
-- The extension does not currently support **import** from JSON — export is available, import is not yet implemented.
 
 ---
 
