@@ -11,6 +11,12 @@ function loadSnippets() {
 
 loadSnippets();
 
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === "snippetsUpdated") {
+    snippets = message.snippets;
+  }
+});
+
 chrome.storage.onChanged.addListener((changes) => {
   if (changes.snippets) {
     snippets = changes.snippets.newValue || {};

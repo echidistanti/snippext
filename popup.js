@@ -196,7 +196,10 @@ function cancelEdit(key) {
 
 // ── Save ──────────────────────────────────────────────
 function save(cb) {
-  chrome.storage.local.set({ snippets }, cb);
+  chrome.storage.local.set({ snippets }, () => {
+    chrome.runtime.sendMessage({action: "snippetsUpdated", snippets: snippets});
+    cb();
+  });
 }
 
 // ── Export ────────────────────────────────────────────
