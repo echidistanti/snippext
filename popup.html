@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snippext</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── DARK THEME (default) ── */
+    :root {
+      --bg:           #0e0e0f;
+      --surface:      #17171a;
+      --surface2:     #1f1f24;
+      --border:       #2a2a30;
+      --border-hover: #3e3e48;
+      --text:         #e8e8ec;
+      --text-dim:     #6b6b78;
+      --text-dimmer:  #3a3a44;
+      --accent:       #c8f064;
+      --accent-dim:   #8aaa3a;
+      --accent-fg:    #0e0e0f;
+      --danger:       #ff5a5a;
+      --radius: 6px;
+      --mono: 'DM Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    /* ── LIGHT THEME ── */
+    :root.light {
+      --bg:           #f4f4ef;
+      --surface:      #eaeae4;
+      --surface2:     #dfdfd8;
+      --border:       #ccccc4;
+      --border-hover: #a0a096;
+      --text:         #18181a;
+      --text-dim:     #52524e;
+      --text-dimmer:  #9e9e98;
+      --accent:       #4e7a00;
+      --accent-dim:   #3a5c00;
+      --accent-fg:    #ffffff;
+      --danger:       #c42000;
+    }
+
+    body {
+      width: 420px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 300;
+      user-select: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .logo-mark {
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .logo-tag {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .count-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* ── THEME TOGGLE ── */
+    .btn-theme {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-dim);
+      cursor: pointer;
+      width: 28px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .btn-theme:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+    .btn-theme svg { width: 13px; height: 13px; }
+    .icon-moon { display: block; }
+    .icon-sun  { display: none; }
+    :root.light .icon-moon { display: none; }
+    :root.light .icon-sun  { display: block; }
+
+    /* ── ADD FORM ── */
+    .add-form {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      gap: 8px;
+      align-items: start;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .field label {
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-left: 2px;
+    }
+    .field input, .field textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 400;
+      padding: 7px 10px;
+      outline: none;
+      transition: border-color 0.15s, background 0.2s;
+      resize: none;
+      width: 100%;
+    }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--accent-dim);
+    }
+    .field input::placeholder, .field textarea::placeholder {
+      color: var(--text-dimmer);
+    }
+    .field.expansion { flex: 1; }
+    .field textarea {
+      height: 52px;
+      line-height: 1.4;
+    }
+    .btn-add {
+      align-self: flex-end;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: var(--accent-fg);
+      cursor: pointer;
+      height: 52px;
+      width: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.15s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .btn-add:hover { opacity: 0.85; }
+    .btn-add:active { transform: scale(0.95); }
+    .btn-add svg { width: 16px; height: 16px; }
+
+    /* ── SEARCH ── */
+    .search-bar {
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-bar input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-bar input:focus { border-color: var(--border-hover); }
+    .search-bar input::placeholder { color: var(--text-dimmer); }
+
+    /* ── SNIPPET LIST ── */
+    .snippet-list {
+      max-height: 280px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .snippet-list::-webkit-scrollbar { width: 4px; }
+    .snippet-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .snippet-item {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .snippet-item:hover { background: var(--surface); }
+    .snippet-item:last-child { border-bottom: none; }
+
+    .snippet-keyword {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      padding: 10px 12px 10px 18px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      word-break: break-all;
+      min-width: 0;
+    }
+    .snippet-expansion {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .snippet-expansion span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .btn-delete {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 14px;
+      color: var(--text-dimmer);
+      display: flex;
+      align-items: center;
+      transition: color 0.15s;
+    }
+    .btn-delete:hover { color: var(--danger); }
+    .btn-delete svg { width: 13px; height: 13px; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      padding: 32px 18px;
+      text-align: center;
+      color: var(--text-dimmer);
+    }
+    .empty-state p { font-size: 12px; line-height: 1.6; }
+    .empty-state .hint {
+      margin-top: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    /* ── ERROR ── */
+    .error-msg {
+      display: none;
+      font-size: 11px;
+      color: var(--danger);
+      padding: 4px 2px 0;
+      font-family: var(--mono);
+    }
+    .error-msg.visible { display: block; }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 8px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-note {
+      font-size: 10px;
+      color: var(--text-dimmer);
+      letter-spacing: 0.03em;
+    }
+    .btn-export {
+      font-size: 10px;
+      color: var(--text-dimmer);
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      padding: 0;
+      transition: color 0.15s;
+    }
+    .btn-export:hover { color: var(--text); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 6px 14px;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <span class="logo-mark">Snippext</span>
+      <span class="logo-tag">text expander</span>
+    </div>
+    <div class="header-right">
+      <span class="count-badge" id="countBadge">0 snippets</span>
+      <button class="btn-theme" id="btnTheme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 8.5A5 5 0 0 1 4.5 2a5 5 0 1 0 6.5 6.5z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="6.5" cy="6.5" r="2.2"/>
+          <line x1="6.5" y1="1" x2="6.5" y2="2.2"/>
+          <line x1="6.5" y1="10.8" x2="6.5" y2="12"/>
+          <line x1="1" y1="6.5" x2="2.2" y2="6.5"/>
+          <line x1="10.8" y1="6.5" x2="12" y2="6.5"/>
+          <line x1="2.8" y1="2.8" x2="3.7" y2="3.7"/>
+          <line x1="9.3" y1="9.3" x2="10.2" y2="10.2"/>
+          <line x1="10.2" y1="2.8" x2="9.3" y2="3.7"/>
+          <line x1="3.7" y1="9.3" x2="2.8" y2="10.2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="add-form">
+    <div class="form-row">
+      <div class="field">
+        <label>Keyword</label>
+        <input type="text" id="inputKeyword" placeholder="@@mail" spellcheck="false" autocomplete="off" />
+      </div>
+      <div class="field expansion">
+        <label>Expansion</label>
+        <textarea id="inputExpansion" placeholder="pincopallino@gmail.com" spellcheck="false"></textarea>
+      </div>
+      <button class="btn-add" id="btnAdd" title="Add snippet">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/>
+        </svg>
+      </button>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="search-bar" id="searchBar" style="display:none">
+    <input type="text" id="inputSearch" placeholder="filter…" spellcheck="false" />
+  </div>
+
+  <div class="snippet-list" id="snippetList">
+    <div class="empty-state">
+      <p>No snippets yet.</p>
+      <p class="hint">Type a keyword → expansion above.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-note">local · no cloud · no ai</span>
+    <button class="btn-export" id="btnExport">export JSON</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
