@@ -45,11 +45,18 @@ snippext/
 ├── content.js        # Text expansion logic, injected into every page
 ├── popup.html        # Control panel markup and styles
 ├── popup.js          # Control panel logic
+├── LICENSE          # MIT license text
 └── icons/
     ├── icon16.png
     ├── icon48.png
     └── icon128.png
 ```
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
