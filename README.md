@@ -6,7 +6,7 @@
 
 ## What it does
 
-Snippext lets you define short keywords that automatically expand into longer strings whenever you type them in any text field in Chrome. Type `@@` and it becomes `pincopallino@gmail.com`. Type `;addr` and it becomes your full address. The expansion happens instantly and invisibly — no popup, no suggestion box, no autocomplete overlay.
+Snippext lets you define short keywords that automatically expand into longer strings whenever you type them in any text field in Chrome. Type `@@` and it becomes `example@email.com`. Type `;addr` and it becomes your full address. The expansion happens instantly and invisibly — no popup, no suggestion box, no autocomplete overlay.
 
 It works in any editable element on any page: standard `<input>` and `<textarea>` fields, as well as `contenteditable` elements like Gmail, Notion, Google Docs, and similar web apps.
 
@@ -26,7 +26,7 @@ All snippet data is loaded once on page load from `chrome.storage.local` and kep
 
 Clicking the extension icon opens a popup with a minimal dark-themed interface. From here you can:
 
-- **Add a snippet** — enter a keyword (e.g. `@@mail`) and the text it should expand to (e.g. `pincopallino@gmail.com`), then press Enter or click the `+` button. Tab moves focus between the two fields.
+- **Add a snippet** — enter a keyword (e.g. `@@mail`) and the text it should expand to (e.g. `example@email.com`), then press Enter or click the `+` button. Tab moves focus between the two fields.
 - **Delete a snippet** — click the `×` button on any row in the list.
 - **Filter snippets** — a search field appears automatically once you have more than four snippets, letting you filter by keyword or expansion text.
 - **Export to JSON** — the "export JSON" button in the footer downloads all your snippets as a plain `.json` file, useful for backup or transfer.
