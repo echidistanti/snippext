@@ -267,6 +267,60 @@
     .btn-delete:hover { color: var(--danger); }
     .btn-delete svg { width: 13px; height: 13px; }
 
+    /* ── EDIT MODE ── */
+    .snippet-item.editing {
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--surface2);
+    }
+    .edit-keyword {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 8px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s;
+    }
+    .edit-keyword:focus { border-color: var(--accent-dim); }
+    .edit-expansion {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 8px;
+      outline: none;
+      width: 100%;
+      height: 40px;
+      resize: none;
+      line-height: 1.4;
+      transition: border-color 0.15s;
+    }
+    .edit-expansion:focus { border-color: var(--accent-dim); }
+    .btn-save, .btn-cancel {
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: var(--accent-fg);
+      cursor: pointer;
+      font-size: 10px;
+      padding: 4px 8px;
+      transition: opacity 0.15s;
+    }
+    .btn-save:hover, .btn-cancel:hover { opacity: 0.85; }
+    .btn-cancel {
+      background: var(--surface2);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+    .btn-cancel:hover { color: var(--text); }
+
     /* ── EMPTY STATE ── */
     .empty-state {
       padding: 32px 18px;

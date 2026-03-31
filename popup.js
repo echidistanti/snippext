@@ -58,7 +58,18 @@ function render() {
     ).join("");
 
   snippetList.querySelectorAll(".btn-delete").forEach(btn => {
-    btn.addEventListener("click", () => deleteSnippet(btn.dataset.key));
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteSnippet(btn.dataset.key);
+    });
+  });
+
+  snippetList.querySelectorAll(".snippet-item").forEach(item => {
+    item.addEventListener("click", () => {
+      if (!item.classList.contains("editing")) {
+        enterEditMode(item.dataset.key);
+      }
+    });
   });
 }
 
@@ -115,6 +126,72 @@ function deleteSnippet(key) {
     render();
     showToast(`"${key}" removed`);
   });
+}
+
+// ── Edit ───────────────────────────────────────────────
+function enterEditMode(key) {
+  const item = snippetList.querySelector(`[data-key="${key}"]`);
+  item.classList.add("editing");
+  const currentExpansion = snippets[key];
+  item.innerHTML = `
+    <input class="edit-keyword" value="${esc(key)}">
+    <textarea class="edit-expansion">${esc(currentExpansion)}</textarea>
+    <button class="btn-save">save</button>
+    <button class="btn-cancel">cancel</button>
+  `;
+  const editKeyword = item.querySelector(".edit-keyword");
+  const editExpansion = item.querySelector(".edit-expansion");
+  const btnSave = item.querySelector(".btn-save");
+  const btnCancel = item.querySelector(".btn-cancel");
+
+  editKeyword.focus();
+
+  const performSave = () => saveEdit(key, editKeyword.value.trim(), editExpansion.value);
+
+  btnSave.addEventListener("click", performSave);
+  btnCancel.addEventListener("click", () => cancelEdit(key));
+
+  editKeyword.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") performSave();
+  });
+  editExpansion.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      performSave();
+    }
+  });
+}
+
+function saveEdit(oldKey, newKey, newExpansion) {
+  errorMsg.className = "error-msg";
+  errorMsg.textContent = "";
+
+  if (!newKey) {
+    showError("Keyword cannot be empty.");
+    return;
+  }
+  if (!newExpansion) {
+    showError("Expansion cannot be empty.");
+    return;
+  }
+  if (newKey !== oldKey && snippets[newKey] !== undefined) {
+    showError(`"${newKey}" already exists.`);
+    return;
+  }
+
+  if (newKey !== oldKey) {
+    delete snippets[oldKey];
+  }
+  snippets[newKey] = newExpansion;
+
+  save(() => {
+    render();
+    showToast(`"${newKey}" updated`);
+  });
+}
+
+function cancelEdit(key) {
+  render();
 }
 
 // ── Save ──────────────────────────────────────────────

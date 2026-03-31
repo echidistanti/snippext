@@ -27,6 +27,7 @@ All snippet data is loaded once on page load from `chrome.storage.local` and kep
 Clicking the extension icon opens a popup with a minimal dark-themed interface. From here you can:
 
 - **Add a snippet** — enter a keyword (e.g. `@@mail`) and the text it should expand to (e.g. `example@email.com`), then press Enter or click the `+` button. Tab moves focus between the two fields.
+- **Edit a snippet** — click on any snippet in the list to enter edit mode, modify the keyword or expansion, then save or cancel.
 - **Delete a snippet** — click the `×` button on any row in the list.
 - **Filter snippets** — a search field appears automatically once you have more than four snippets, letting you filter by keyword or expansion text.
 - **Export to JSON** — the "export JSON" button in the footer downloads all your snippets as a plain `.json` file, useful for backup or transfer.
